@@ -7,6 +7,11 @@ export class GetAuthUserAction {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   public handle(@Req() request: Request): object {
-    return request.user;
+    return {
+      status: true,
+      data: {
+        user: request.user,
+      },
+    };
   }
 }
