@@ -17,7 +17,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @Inject(forwardRef(() => AuthService))
-    private authService: AuthService,
+    private readonly authService: AuthService,
   ) {}
 
   public async createUser(data: CreateUserDTO) {

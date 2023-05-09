@@ -4,7 +4,7 @@ import LoginDTO from 'src/common/dto/LoginDTO';
 
 @Controller('auth/login')
 export class LoginAction {
-  public constructor(private authService: AuthService) {}
+  public constructor(private readonly authService: AuthService) {}
 
   @Post()
   public async handle(@Body() request: LoginDTO): Promise<object> {

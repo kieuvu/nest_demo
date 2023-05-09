@@ -4,7 +4,7 @@ import { CreateUserDTO } from 'src/common/dto/CreateUserDTO';
 
 @Controller('user/create')
 export class CreateUserAction {
-  public constructor(private userService: UserService) {}
+  public constructor(private readonly userService: UserService) {}
 
   @Post()
   public async handle(@Body() request: CreateUserDTO): Promise<object> {

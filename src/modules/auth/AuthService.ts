@@ -14,7 +14,7 @@ import LoginDTO from 'src/common/dto/LoginDTO';
 export class AuthService {
   public constructor(
     @Inject(forwardRef(() => UserService))
-    private userService: UserService,
+    private readonly userService: UserService,
   ) {}
 
   public async hashPassword(password: string): Promise<string> {
