@@ -34,7 +34,11 @@ export class AuthService {
       sub: user.id,
       email: user.email,
       username: user.username,
+      isActive: user.isActive,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     };
+
     return this.jwtService.sign(payload);
   }
 
