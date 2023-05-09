@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './AppModule';
+import { AppModule } from './modules/AppModule';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
