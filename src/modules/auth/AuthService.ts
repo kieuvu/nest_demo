@@ -14,7 +14,7 @@ import { HttpMessage } from 'src/common/utils/enum';
 @Injectable()
 export class AuthService {
   public constructor(
-    @Inject(forwardRef(() => UserService))
+    @Inject(forwardRef((): typeof UserService => UserService))
     private readonly userService: UserService,
   ) {}
 

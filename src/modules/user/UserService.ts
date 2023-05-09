@@ -17,7 +17,7 @@ export class UserService {
   public constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    @Inject(forwardRef(() => AuthService))
+    @Inject(forwardRef((): typeof AuthService => AuthService))
     private readonly authService: AuthService,
   ) {}
 
