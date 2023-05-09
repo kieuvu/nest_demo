@@ -8,7 +8,9 @@ export class LoginAction {
 
   @Post()
   public async handle(@Body() request: LoginDTO): Promise<object> {
-    await this.authService.login(request);
+    const { email, password } = request;
+
+    await this.authService.login(email, password);
 
     return {
       status: true,

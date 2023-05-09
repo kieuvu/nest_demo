@@ -6,7 +6,6 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { AuthService } from '../auth/AuthService';
-import { CreateUserDTO } from 'src/common/dto/CreateUserDTO';
 import { UserEntity } from './UserEntity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -21,10 +20,14 @@ export class UserService {
     private readonly authService: AuthService,
   ) {}
 
-  public async createUser(data: CreateUserDTO) {
-    data.password = await this.authService.hashPassword(data.password);
+  public async createUser(
+    email: string,
+    username: string,
+    password: string,
+  ): Promise<void> {
+    password = await this.authService.hashPassword(password);
 
-    const existingUser: UserEntity = await this.getUserByEmail(data.email);
+    const existingUser: UserEntity = await this.getUserByEmail(email);
 
     if (existingUser) {
       throw new HttpException(
@@ -33,7 +36,7 @@ export class UserService {
       );
     }
 
-    await this.userRepository.save(data);
+    await this.userRepository.save({ email, password, username });
   }
 
   public async getUserByEmail(email: string): Promise<UserEntity> {

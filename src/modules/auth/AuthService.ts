@@ -8,7 +8,6 @@ import {
 import { UserService } from '../user/UserService';
 import { compare, genSalt, hash } from 'bcrypt';
 import { UserEntity } from '../user/UserEntity';
-import LoginDTO from 'src/common/dto/LoginDTO';
 import { HttpMessage } from 'src/common/utils/enum';
 
 @Injectable()
@@ -25,15 +24,15 @@ export class AuthService {
     return hashedPassword;
   }
 
-  public async login(data: LoginDTO): Promise<void> {
-    const user: UserEntity = await this.userService.getUserByEmail(data.email);
+  public async login(email: string, password: string): Promise<void> {
+    const user: UserEntity = await this.userService.getUserByEmail(email);
 
     if (!user) {
       throw new HttpException(HttpMessage.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     const checkPassword: boolean = await this.comparePassword(
-      data.password,
+      password,
       user.password,
     );
 

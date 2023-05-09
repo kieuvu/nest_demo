@@ -8,7 +8,9 @@ export class CreateUserAction {
 
   @Post()
   public async handle(@Body() request: CreateUserDTO): Promise<object> {
-    await this.userService.createUser(request);
+    const { email, username, password } = request;
+
+    await this.userService.createUser(email, username, password);
 
     return {
       status: true,
