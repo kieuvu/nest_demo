@@ -7,7 +7,7 @@ import { databaseConfig } from 'src/common/configs/DatabaseConfig';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(databaseConfig()),
     UserModule,
     AuthModule,
