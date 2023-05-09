@@ -13,6 +13,6 @@ export class CreateUserAction {
 
     await this.userService.createUser(email, username, password);
 
-    return new ResponseUtil();
+    return new ResponseUtil().setStatus(true);
   }
 }
