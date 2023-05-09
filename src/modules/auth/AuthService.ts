@@ -1,20 +1,15 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  forwardRef,
-} from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { UserService } from '../user/UserService';
 import { compare, genSalt, hash } from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from '../user/UserEntity';
-import { HttpMessage } from 'src/common/utils/enum';
 
 @Injectable()
 export class AuthService {
   public constructor(
     @Inject(forwardRef((): typeof UserService => UserService))
     private readonly userService: UserService,
+    private readonly jwtService: JwtService,
   ) {}
 
   public async hashPassword(password: string): Promise<string> {
@@ -24,23 +19,23 @@ export class AuthService {
     return hashedPassword;
   }
 
-  public async login(email: string, password: string): Promise<void> {
+  async validateUser(email: string, password: string): Promise<any> {
     const user: UserEntity = await this.userService.getUserByEmail(email);
 
-    if (!user) {
-      throw new HttpException(HttpMessage.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+    if (user && (await this.comparePassword(password, user.password))) {
+      return user;
     }
 
-    const checkPassword: boolean = await this.comparePassword(
-      password,
-      user.password,
-    );
+    return null;
+  }
 
-    if (!checkPassword) {
-      throw new HttpException(HttpMessage.FORBIDDEN, HttpStatus.FORBIDDEN);
-    }
-
-    // Generate access_token here
+  async getAccessToken(user: any): Promise<string> {
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      username: user.username,
+    };
+    return this.jwtService.sign(payload);
   }
 
   private async comparePassword(
