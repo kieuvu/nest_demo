@@ -9,7 +9,7 @@ import { AuthService } from '../auth/AuthService';
 import { UserEntity } from './UserEntity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { HttpMessage } from 'src/common/utils/enum';
+import { HttpMessage } from 'src/common/utils/Enum';
 
 @Injectable()
 export class UserService {
