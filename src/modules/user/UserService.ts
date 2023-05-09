@@ -10,6 +10,7 @@ import { CreateUserDTO } from 'src/common/dto/CreateUserDTO';
 import { UserEntity } from './UserEntity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { HttpMessage } from 'src/common/utils/enum';
 
 @Injectable()
 export class UserService {
@@ -26,7 +27,10 @@ export class UserService {
     const existingUser: UserEntity = await this.getUserByEmail(data.email);
 
     if (existingUser) {
-      throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        HttpMessage.EMAIL_EXISTED,
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     await this.userRepository.save(data);

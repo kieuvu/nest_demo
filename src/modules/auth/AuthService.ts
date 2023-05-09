@@ -9,6 +9,7 @@ import { UserService } from '../user/UserService';
 import { compare, genSalt, hash } from 'bcrypt';
 import { UserEntity } from '../user/UserEntity';
 import LoginDTO from 'src/common/dto/LoginDTO';
+import { HttpMessage } from 'src/common/utils/enum';
 
 @Injectable()
 export class AuthService {
@@ -28,10 +29,7 @@ export class AuthService {
     const user: UserEntity = await this.userService.getUserByEmail(data.email);
 
     if (!user) {
-      throw new HttpException(
-        'User Not Found In Database',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException(HttpMessage.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     const checkPassword: boolean = await this.comparePassword(
@@ -40,7 +38,7 @@ export class AuthService {
     );
 
     if (!checkPassword) {
-      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+      throw new HttpException(HttpMessage.FORBIDDEN, HttpStatus.FORBIDDEN);
     }
 
     // Generate access_token here
