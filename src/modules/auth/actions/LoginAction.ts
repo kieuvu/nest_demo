@@ -1,19 +1,24 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from '../AuthService';
-import LoginDTO from 'src/common/dto/LoginDTO';
+import { Request } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth/login')
 export class LoginAction {
   public constructor(private readonly authService: AuthService) {}
 
   @Post()
-  public async handle(@Body() request: LoginDTO): Promise<object> {
-    const { email, password } = request;
+  @UseGuards(AuthGuard('local'))
+  public async handle(@Req() request: Request): Promise<object> {
+    const { user } = request;
 
-    await this.authService.login(email, password);
+    const token: string = await this.authService.getAccessToken(user);
 
     return {
       status: true,
+      data: {
+        accessToken: token,
+      },
     };
   }
 }
