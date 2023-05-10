@@ -9,9 +9,9 @@ async function bootstrap() {
   const configService: ConfigService = app.get(ConfigService);
 
   app
-    .setGlobalPrefix(configService.get<string>('APP_ROUTE_PREFIX') || 'api')
+    .setGlobalPrefix(configService.get<string>('routePrefix'))
     .useGlobalPipes(new ValidationPipe());
 
-  await app.listen(configService.get<number>('APP_PORT') || 3000);
+  await app.listen(configService.get<number>('port'));
 }
 bootstrap();
