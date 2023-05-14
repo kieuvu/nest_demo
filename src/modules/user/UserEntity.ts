@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { TodoEntity } from '../todo/TodoEntity';
 
 @Entity('users')
 export class UserEntity {
@@ -32,4 +34,10 @@ export class UserEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(
+    (): typeof TodoEntity => TodoEntity,
+    (todo: TodoEntity): UserEntity => todo.user,
+  )
+  todos: TodoEntity[];
 }
