@@ -21,7 +21,7 @@ export class TodoEntity {
   description: string;
 
   @Column({
-    default: true,
+    default: false,
   })
   isDone: string;
 
