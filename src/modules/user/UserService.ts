@@ -44,4 +44,10 @@ export class UserService {
       where: { email },
     });
   }
+
+  public async getUserById(id: number): Promise<UserEntity> {
+    return await this.userRepository.findOne({
+      where: { id },
+    });
+  }
 }
