@@ -3,7 +3,7 @@ import { AppModule } from './modules/AppModule';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-async function bootstrap() {
+(async (): Promise<void> => {
   const app: INestApplication = await NestFactory.create(AppModule);
 
   const configService: ConfigService = app.get(ConfigService);
@@ -13,5 +13,4 @@ async function bootstrap() {
     .useGlobalPipes(new ValidationPipe());
 
   await app.listen(configService.get<number>('port'));
-}
-bootstrap();
+})();
