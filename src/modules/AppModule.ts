@@ -5,6 +5,8 @@ import { UserModule } from './user/UserModule';
 import { AuthModule } from './auth/AuthModule';
 import { databaseConfig } from 'src/common/configs/DatabaseConfig';
 import { AppConfig } from 'src/common/configs/AppConfig';
+import { TodoModule } from './todo/TodoModule';
+import { CategoryModule } from './category/CategoryModule';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { AppConfig } from 'src/common/configs/AppConfig';
     TypeOrmModule.forRoot(databaseConfig()),
     UserModule,
     AuthModule,
+    TodoModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}

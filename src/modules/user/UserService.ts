@@ -10,6 +10,7 @@ import { UserEntity } from './UserEntity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HttpMessage } from 'src/common/utils/Enum';
+import { CreateUserRequest } from 'src/common/dto/CreateUserRequest';
 
 @Injectable()
 export class UserService {
@@ -20,11 +21,10 @@ export class UserService {
     private readonly authService: AuthService,
   ) {}
 
-  public async createUser(
-    email: string,
-    username: string,
-    password: string,
-  ): Promise<void> {
+  public async createUser(request: CreateUserRequest): Promise<void> {
+    let { password } = request;
+    const { username, email } = request;
+
     password = await this.authService.hashPassword(password);
 
     const existingUser: UserEntity = await this.getUserByEmail(email);
