@@ -1,17 +1,17 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { UserService } from '../UserService';
-import { CreateUserDTO } from 'src/common/dto/CreateUserDTO';
 import { ResponseUtil } from 'src/common/utils/ResponseUtil';
+import { CreateUserRequest } from 'src/common/dto/CreateUserRequest';
 
 @Controller('user/create')
 export class CreateUserAction {
   public constructor(private readonly userService: UserService) {}
 
   @Post()
-  public async handle(@Body() request: CreateUserDTO): Promise<ResponseUtil> {
-    const { email, username, password } = request;
-
-    await this.userService.createUser(email, username, password);
+  public async handle(
+    @Body() request: CreateUserRequest,
+  ): Promise<ResponseUtil> {
+    await this.userService.createUser(request);
 
     return new ResponseUtil().setStatus(true);
   }

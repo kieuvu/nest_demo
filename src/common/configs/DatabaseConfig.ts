@@ -1,4 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { CategoryEntity } from 'src/modules/category/CategoryEntity';
+import { TodoEntity } from 'src/modules/todo/TodoEntity';
 import { UserEntity } from 'src/modules/user/UserEntity';
 
 export const databaseConfig: () => TypeOrmModuleOptions =
@@ -10,5 +12,5 @@ export const databaseConfig: () => TypeOrmModuleOptions =
     password: process.env.DATABASE_PASSWORD || 'password',
     database: process.env.DATABASE_NAME || 'database',
     synchronize: Boolean(process.env.DATABASE_SYNC) || true,
-    entities: [UserEntity],
+    entities: [UserEntity, TodoEntity, CategoryEntity],
   });
