@@ -1,27 +1,24 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import CreateTodoRequest from 'src/common/dto/CreateTodoRequest';
 import { TodoService } from '../TodoService';
 import { UserEntity } from 'src/modules/user/UserEntity';
+import { TodoEntity } from '../TodoEntity';
 import { ResponseUtil } from 'src/common/utils/ResponseUtil';
 
-@Controller('/todo/create')
-export class CreateTodoAction {
+@Controller('todo/get')
+export class GetListTodoAction {
   public constructor(private readonly todoService: TodoService) {}
 
-  @Post()
+  @Get()
   @UseGuards(AuthGuard('jwt'))
-  async handle(
-    @Req() request: Request,
-    @Body() body: CreateTodoRequest,
-  ): Promise<ResponseUtil> {
+  public async handle(@Req() request: Request): Promise<ResponseUtil> {
     const { user } = request;
 
     const userId: number = (user as UserEntity).id;
 
-    await this.todoService.createTodo(body, userId);
+    const result: TodoEntity[] = await this.todoService.getTodoByUser(userId);
 
-    return new ResponseUtil();
+    return new ResponseUtil().setData(result);
   }
 }
