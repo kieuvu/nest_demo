@@ -48,6 +48,7 @@ export class TodoService {
           id: userId,
         },
       },
+      relations: ['category'],
     });
   }
 }
